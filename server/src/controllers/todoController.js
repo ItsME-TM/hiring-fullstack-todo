@@ -65,4 +65,22 @@ export const updateTodo = async (req, res) => {
             error: error.message
         });
     }
-}
+};
+
+//PATCH /api/todos/:id/toggle - Toggle the 'done' status of a todo by ID
+export const toggleTodoDone = async (req, res) => {
+    try{
+        const todo = await Todo.findById(req.params.id);
+        if(!todo){
+            return res.status(404).json({message: "Todo not found"});
+        }
+        todo.done = !todo.done;
+        await todo.save();
+        res.json(todo);
+    }catch(error){
+        res.status(500).json({
+            message: "Server Error",
+            error: error.message
+        });
+    }
+};

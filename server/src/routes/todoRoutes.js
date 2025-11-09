@@ -1,8 +1,9 @@
 import express from 'express';
-import { createTodo, getTodos } from '../controllers/todoController.js';
+import { createTodo, getTodos, deleteTodo } from '../controllers/todoController.js';
 
 export const router = express.Router();
 
 // Route to create a new todo
 router.post('/', createTodo);
 router.get('/', getTodos);
+router.delete('/:id', deleteTodo);

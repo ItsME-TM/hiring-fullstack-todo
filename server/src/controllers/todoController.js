@@ -16,12 +16,31 @@ export const createTodo = async (req, res) => {
     }
 };
 
+//GET /api/todos - Get all todos
 export const getTodos = async (req, res) => {
     try{
         //get all todos sorted by creation date (using createdAt field from timestamps)  
         //-1 means descending (newest first)
         const todos = await Todo.find().sort({ createdAt: -1 });
         res.json(todos);
+    }catch(error){
+        res.status(500).json({
+            message: "Server Error",
+            error: error.message
+        });
+    }
+};
+
+
+export const deleteTodo = async (req, res) => {
+    try{
+        const todo = await Todo.findByIdAndDelete(req.params.id);
+        if(!todo){
+            return res.status(404).json({message: "Todo not found"});
+        }
+        res.json({
+            message: "Todo deleted successfully"
+        });
     }catch(error){
         res.status(500).json({
             message: "Server Error",

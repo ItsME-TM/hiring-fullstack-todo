@@ -1,7 +1,7 @@
-import Todo from "../models/Todo";
+import Todo from "../models/Todo.js";
 
 //POST /api/todos - Create a new todo
-export const createTodo = async () => {
+export const createTodo = async (req, res) => {
     try{
         const {title, description} = req.body;
         const todo = await Todo.create({

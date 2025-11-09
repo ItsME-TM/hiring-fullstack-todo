@@ -31,7 +31,7 @@ export const getTodos = async (req, res) => {
     }
 };
 
-
+//DELETE /api/todos/:id - Delete a todo by ID
 export const deleteTodo = async (req, res) => {
     try{
         const todo = await Todo.findByIdAndDelete(req.params.id);
@@ -48,3 +48,21 @@ export const deleteTodo = async (req, res) => {
         });
     }
 };
+
+//PUT /api/todos/:id - Update a todo by ID
+export const updateTodo = async (req, res) => {
+    try{
+        // Find the todo by ID and update it with new data {new : true} from req.body
+        const todo = await Todo.findByIdAndUpdate(req.params.id, req.body, {new: true});
+        if(!todo){
+            return res.status(404).json({message: "Todo not found"});
+        }
+        res.json(todo);
+        console.log("Updated Todo:", todo);
+    }catch(error){
+        res.status(500).json({
+            message: "Server Error",
+            error: error.message
+        });
+    }
+}

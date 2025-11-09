@@ -1,5 +1,5 @@
 import express from 'express';
-import { createTodo, getTodos, deleteTodo } from '../controllers/todoController.js';
+import { createTodo, getTodos, deleteTodo, updateTodo } from '../controllers/todoController.js';
 
 export const router = express.Router();
 
@@ -7,3 +7,4 @@ export const router = express.Router();
 router.post('/', createTodo);
 router.get('/', getTodos);
 router.delete('/:id', deleteTodo);
+router.put('/:id', updateTodo);

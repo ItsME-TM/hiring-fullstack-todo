@@ -24,23 +24,23 @@ export default function TodoForm() {
                     )
                 }
                 <div className = "mb-4">
-                    <lable htmlFor = "title" className = "block text-gray-700 fontmedium mb-2">
+                    <label htmlFor = "title" className = "block text-gray-700 fontmedium mb-2">
                         Title <span className = "text-red-500">*</span>
-                    </lable>
+                    </label>
                     <input
-                    type = "title"
-                    value = {title}
-                    onChange = {(e) => setTitle(e.target.value)}
-                    placeholder = "Enter new Todo"
-                    className = "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
-                    disabled = {isLoading}
-                />
+                        type = "title"
+                        value = {title}
+                        onChange = {(e) => setTitle(e.target.value)}
+                        placeholder = "Enter new Todo"
+                        className = "w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                        disabled = {isLoading}
+                    />
                 </div>
                 {/* Description Input */}
                 <div className = "mb-4">
-                    <lable html = "description" className = "block text-gray-700 font-medium mb-2">
+                    <label html = "description" className = "block text-gray-700 font-medium mb-2">
                         Description
-                    </lable>
+                    </label>
                     <textarea
                         id = "description"
                         value = {description}

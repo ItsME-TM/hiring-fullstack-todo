@@ -20,6 +20,7 @@ export default function Home() {
       setIsLoading(true);
       setError(null);
       const data = await todoAPI.gettAllTodos();
+      console.log("[Home]Fetched todos:", data);
       setTodos(data);
     } catch (error) {
       console.error("Error fetching todos:", error);

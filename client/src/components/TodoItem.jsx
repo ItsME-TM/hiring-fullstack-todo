@@ -1,35 +1,65 @@
 import { FaTrash, FaEdit, FaCheck, FaTimes } from "react-icons/fa";
 import { useState } from "react";
-import { set } from "mongoose";
+import { todoAPI } from "../services/api";
 
-export default function TodoItem({}){
+
+export default function TodoItem({todo, onUpdate, onDelete}) {
     const [isEditing, setIsEditing] = useState(false);
     const [editTitle, setEditTitle] = useState("");
     const [editDescription, setEditDescription] = useState("");
     const [isLoading, setIsLoading] = useState(false);
 
-    const handleSaveEdit = () => {
-        console.log("Save Edit Clicked");
+    const handleSaveEdit = async() => {
+        if(!editTitle.trim()){
+            return;
+        }
+        setIsLoading(true);
+        try{
+            const updated = await todoAPI.updatedTodo(todo._id,{
+                title: editTitle,
+                description: editDescription.trim(),
+            });
+            onUpdate(updated);
+            setIsEditing(false);
+        }catch(error){
+            console.error("Error updating todo:", error);
+        }finally{
+            setIsLoading(false);
+        }
     }
 
     const handleCancelEdit = () => {
+        setEditTitle(todo.title);
+        setEditDescription(todo.description || "");
         setIsEditing(false);
     }
 
-    const handleToggleDone = () => {
-        console.log("Toggle Done Clicked");
-    }
-
-    const handleDelete = () => {
-        console.log("Delete Clicked");
-    }
-
-    const todo = {
-        title: "Sample Todo",
-        description: "This is a sample description for the todo item.",
-        done: false,
-        createdAt: new Date(),
+    const handleToggleDone = async() => {
+        setIsLoading(true);
+        try{
+            const updated = await todoAPI.updateTodo(todo._id);
+            onUpdate(updated);
+        }catch(error){
+            console.error("Error toggling todo done status:", error);
+        }finally{
+            setIsLoading(false);
+        }
     };
+
+    const handleDelete = async () => {
+        if(!window.confirm("Are you sure you want to delete this todo?")){
+            return;
+        }
+        setIsLoading(true);
+        try{
+            await todoAPI.deleteTodo(todo._id);
+            onDelete(todo._id);
+        }catch(error){
+            console.error("Error deleting todo:", error);
+        }finally{
+            setIsLoading(false);
+        }
+    }
 
     return(
         <li

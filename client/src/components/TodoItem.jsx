@@ -37,7 +37,7 @@ export default function TodoItem({todo, onUpdate, onDelete}) {
     const handleToggleDone = async() => {
         setIsLoading(true);
         try{
-            const updated = await todoAPI.updateTodo(todo._id);
+            const updated = await todoAPI.toggleTodoDone(todo._id);
             onUpdate(updated);
         }catch(error){
             console.error("Error toggling todo done status:", error);
@@ -47,6 +47,7 @@ export default function TodoItem({todo, onUpdate, onDelete}) {
     };
 
     const handleDelete = async () => {
+        console.log("Deleting todo:", todo._id);
         if(!window.confirm("Are you sure you want to delete this todo?")){
             return;
         }
@@ -137,7 +138,7 @@ export default function TodoItem({todo, onUpdate, onDelete}) {
                                 <FaEdit size = {18}/>
                             </button>
                             <button
-                                onClick = {() => handleDelete}
+                                onClick = {handleDelete}
                                 title = "Delete"
                                 className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors"
                             >

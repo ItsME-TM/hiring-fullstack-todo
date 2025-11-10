@@ -75,9 +75,9 @@ export default function TodoItem({todo, onUpdate, onDelete}) {
     return(
         <>
             <li
-                className = {`bg-white p-4 rounded-lg shadow-md transition-all ${
-                    todo.done ? "opacity-60" : ""
-                } ${isLoading ? "pointer-events-none opacity-50" : ""}`}
+                className = {`bg-white p-4 rounded-lg shadow-md transition-all duration-300 ease-in-out 
+                    ${todo.done ? "opacity-60 scale-[0.98]" : "opacity-100 scale-100"} 
+                    ${isLoading ? "pointer-events-none opacity-50" : ""}`}
             >
                 {isEditing ? (
                     //Edit Mode
@@ -119,7 +119,7 @@ export default function TodoItem({todo, onUpdate, onDelete}) {
                             />
                             <div className = "flex-1">
                                 <h3 className = {
-                                    `text-lg font-semibold ${
+                                    `text-lg font-semibold transition-all duration-300 ease-in-out ${
                                     todo.done ? "line-through text-gray-500" : "text-gray-800"
                                     }`
                                 }>
@@ -127,7 +127,7 @@ export default function TodoItem({todo, onUpdate, onDelete}) {
                                 </h3>
                                 {todo.description && (
                                     <p 
-                                        className = {`mt-1 text-sm ${
+                                        className = {`mt-1 text-sm transition-all duration-300 ease-in-out ${
                                         todo.done ? "line-through text-gray-400" : "text-gray-600"
                                         }`}
                                     >

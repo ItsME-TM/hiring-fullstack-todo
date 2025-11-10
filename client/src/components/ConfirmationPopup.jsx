@@ -1,11 +1,46 @@
-import React from 'react';
+import React, {useEffect} from 'react';
+// Portal for rendering modal outside main DOM hierarchy (top of the app)
+import { createPortal } from 'react-dom';
+
 
 export const ConfirmationPopup = ({ isOpen, onConfirm, onCancel, message }) => {
+    useEffect (() => {
+        if (!isOpen) return;
+
+        const originalOverflow = document.body.style.overflow;
+        // Prevent background scrolling when modal is open
+        document.body.style.overflow = 'hidden';
+
+        const handleKey = (e) => {
+            if (e.key === "Escape") onCancel();
+        };
+        window.addEventListener("keydown", handleKey);
+
+        return () => {
+            document.body.style.overflow = originalOverflow;
+            window.removeEventListener("keydown", handleKey);
+        }
+
+    }, [isOpen, onCancel]);
+
     if (!isOpen) return null;
 
-    return (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-            <div className="bg-white p-6 rounded-lg shadow-md">
+    return createPortal(
+        <div className="fixed inset-0 z-40 flex items-center justify-center">
+            {/* backdrop covers entire viewport; clicking it cancels */}
+            <div
+                // semi-transparent backdrop
+                className="absolute inset-0 bg-black bg-opacity-60"
+                onClick={onCancel}
+                aria-hidden="true"
+            />
+
+            {/* modal container sits above backdrop (higher z-index) */}
+            <div
+                role="dialog"
+                aria-modal="true"
+                className="relative z-50 bg-white p-6 rounded-lg shadow-md max-w-lg w-full mx-4"
+            >
                 <h2 className="text-lg font-semibold mb-4">Confirmation</h2>
                 <p className="mb-4">{message}</p>
                 <div className="flex justify-end">
@@ -23,6 +58,7 @@ export const ConfirmationPopup = ({ isOpen, onConfirm, onCancel, message }) => {
                     </button>
                 </div>
             </div>
-        </div>
+        </div>,
+        document.body
     );
 };

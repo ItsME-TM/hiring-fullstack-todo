@@ -1,6 +1,7 @@
 //Shows the list of todos
 import TodoItem from "./TodoItem";
-TodoList = [
+// Small sample data used only when no `todos` prop is provided
+const sampleTodos = [
     {
         _id: "1",
         title: "Sample Todo 1",
@@ -13,21 +14,12 @@ TodoList = [
         description: "This is a sample description for todo 2.",
         done: true,
     }
+];
 
-]
-
-const onUpdate = (updatedTodo) => {
-    console.log("Update Todo:", updatedTodo);
-}
-
-const onDelete = (todoId) => {
-    console.log("Delete Todo with ID:", todoId);
-}
-
-export default function TodoList() {
-    return(
+export default function TodoList({ todos = sampleTodos, onUpdate = () => {}, onDelete = () => {} }) {
+    return (
         <ul>
-            {TodoList.map((todo) => (
+            {todos.map((todo) => (
                 <TodoItem
                     key = {todo._id}
                     todo = {todo}

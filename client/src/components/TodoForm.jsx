@@ -13,7 +13,7 @@ export default function TodoForm() {
 
     return(
         <div>
-            <form className = "bg-grey-100 p-6 rounded-lg shadow-md mb-6 max-w-md">
+            <form className = "bg-grey-100 p-6 rounded-lg shadow-md mb-6">
                 <h2 className = "text-3xl font-semibold mb-4 text-gray-800">To do List</h2>
                 {/* Error Message */}
                 {

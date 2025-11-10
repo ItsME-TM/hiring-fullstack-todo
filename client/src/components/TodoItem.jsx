@@ -15,7 +15,7 @@ export default function TodoItem({todo, onUpdate, onDelete}) {
         }
         setIsLoading(true);
         try{
-            const updated = await todoAPI.updatedTodo(todo._id,{
+            const updated = await todoAPI.updateTodo(todo._id,{
                 title: editTitle,
                 description: editDescription.trim(),
             });
@@ -130,10 +130,15 @@ export default function TodoItem({todo, onUpdate, onDelete}) {
 
                         {/* Action Buttons */}
                         <div className = "flex gap-2">
-                            <button 
-                                onClick = {() => {setIsEditing(true)}}
-                                title = "Edit"
-                                className = "p-2 text-blue-500 hover:bg-blue-50 rounded-lg transition-colors"
+                            <button
+                                onClick={() => {
+                                    // initialize edit fields from the current todo before entering edit mode
+                                    setEditTitle(todo.title);
+                                    setEditDescription(todo.description || "");
+                                    setIsEditing(true);
+                                }}
+                                title="Edit"
+                                className="p-2 text-blue-500 hover:bg-blue-50 rounded-lg transition-colors"
                             >
                                 <FaEdit size = {18}/>
                             </button>

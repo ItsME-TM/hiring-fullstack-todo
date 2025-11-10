@@ -1,19 +1,46 @@
 import { useState } from "react";
+import { todoAPI } from "../services/api";
 
 
-export default function TodoForm() {
+export default function TodoForm({onAdd}) {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
 
     const handleSubmit = async (e) => {
+        e.preventDefault();
+        if(!title.trim()){
+            setError("Title is required.");
+            return;
+        }
 
+        setIsLoading(true);
+        setError(null);
+
+        try{
+            const newTodo = await todoAPI.createTodo({
+                title: title.trim(),
+                description: description.trim(),
+            });
+
+            //Call onAdd to update 
+            onAdd(newTodo);
+
+            //clear form
+            setTitle("");
+            setDescription("");
+        }catch(error){
+            console.error("Error creating todo:", error);
+            setError("Failed to create todo. Please try again.");
+        }finally{
+            setIsLoading(false);
+        }
     }
 
     return(
         <div>
-            <form className = "bg-grey-100 p-6 rounded-lg shadow-md mb-6">
+            <form onSubmit={handleSubmit} className = "bg-grey-100 p-6 rounded-lg shadow-md mb-6">
                 <h2 className = "text-3xl font-semibold mb-4 text-gray-800">To do List</h2>
                 {/* Error Message */}
                 {
